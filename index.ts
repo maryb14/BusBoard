@@ -2,11 +2,12 @@ import { Template } from './workspace/template'
 import * as express from 'express'
 import { Result } from './workspace/result'
 import { Bus } from './workspace/bus'
+import * as cors from 'cors'
 
 export class Index {
     public static main(): number {
         var app = express();
-
+        app.use(cors());
         app.get("/", function (req, res){
             res.send('Hello World!')
         });
@@ -33,7 +34,6 @@ export class Index {
                 res.status('406')
                 res.send('postcode is invalid')
             }
-
         });
         app.listen(3000, function (){
             console.log('Example app listening on port 3000')
