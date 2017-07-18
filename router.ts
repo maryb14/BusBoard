@@ -29,8 +29,9 @@ export class Router {
                 res.send(error.message);
             }
         });
-        app.listen(3000, () => {
-            console.log('Example app listening on port 3000')
+        let port = process.env.PORT || 3000;
+        app.listen(port, () => {
+            console.log('Example app listening on port: ' + port)
         });
 
         return 0;
