@@ -12,7 +12,9 @@
   "dependencies": {
     "@types/lodash": "^4.14.68",
     "@types/node": "^8.0.8",
+    "cors": "^2.8.4",
     "express": "^4.15.3",
+    "request": "^2.81.0",
     "tsc": "^1.20150623.0",
     "typescript": "^2.4.1"
   }
