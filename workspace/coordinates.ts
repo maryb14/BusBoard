@@ -1,15 +1,8 @@
-const request = require('request')
-
+import * as request from 'request'
 import { BusStop } from './busStop'
 
 export class Coordinates {
-    latitude: string;
-    longitude: string;
-
-    constructor(lat: string, lon: string){
-        this.latitude = lat; 
-        this.longitude = lon;
-    }
+    constructor(public latitude: string, public longitude: string){ }
     getStopPoints(): Promise <BusStop[]> {
         let promiseLatAndLong: Promise <string> = new Promise((resolve) => {
             var requestString = "https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat="+
@@ -21,7 +14,6 @@ export class Coordinates {
 
         return promiseLatAndLong.then((bodyString: string) => {
             var latLongArray = JSON.parse(bodyString);
-           //console.log(latLongArray.stopPoints);
             var busStops: BusStop[] = [];
             for(var i = 0; i < latLongArray.stopPoints.length; ++i){
                 busStops.push(new BusStop(latLongArray.stopPoints[i].naptanId, latLongArray.stopPoints[i].commonName + " " + latLongArray.stopPoints[i].indicator));

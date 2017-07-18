@@ -1,38 +1,40 @@
 
-const readline = require('readline');
-const request = require('request');
-
+import * as readline from 'readline'
+import * as request from 'request'
 import * as _ from "lodash"
-import {Bus} from './bus'
+
 import {Coordinates} from './coordinates'
 import {PostCode} from './postCode'
 import {BusStop} from './busStop'
 import {Result} from './result'
+import {Bus} from './bus'
 
-export class Template {
+export class PostCodeHandler {
     
-public handleUrlInput(urlPostcodeString: string):Promise<Result[]>{
-    var postCodeObject = new PostCode(urlPostcodeString);
-    let promiseCoordinates = postCodeObject.getCoordinates();
-    return promiseCoordinates.then((coords) => {
-        let promiseBusStops = coords.getStopPoints();
-        return promiseBusStops.then((busStopsArray) => {
-            var promisesArray: Promise<Bus[]>[] = [];
-            for(var i = 0; i < busStopsArray.length; ++i){
-                let promiseBuses = busStopsArray[i].getBuses();
-                promisesArray.push(promiseBuses);
-            }
-            return Promise.all(promisesArray).then(values => {
-                var resultsArray: Result[] = [];
-                for(var j = 0; j < values.length; ++j) {
-                    resultsArray.push(new Result(busStopsArray[j].name, values[j]))
+    public handleUrlInput(urlPostcodeString: string):Promise<Result[]>{
+        var postCodeObject = new PostCode(urlPostcodeString);
+        let promiseCoordinates = postCodeObject.getCoordinates();
+        return promiseCoordinates.then((coords: Coordinates) => {
+            let promiseBusStops = coords.getStopPoints();
+            return promiseBusStops.then((busStopsArray: BusStop[]) => {
+                var promisesArray: Promise<Bus[]>[] = [];
+                for(var i = 0; i < busStopsArray.length; ++i){
+                    let promiseBuses = busStopsArray[i].getBuses();
+                    promisesArray.push(promiseBuses);
                 }
-                return resultsArray;
+                return Promise.all(promisesArray).then(busesArrays => {
+                    var resultsArray: Result[] = [];
+                    for(var j = 0; j < busesArrays.length; ++j) {
+                        if(busesArrays[j].length > 0) {
+                            resultsArray.push(new Result(busStopsArray[j].name, busesArrays[j]));
+                        }
+                    }
+                    return resultsArray;
+                });
             });
         });
-    });
-}
-    
+    }
+        
     private handleUserInput(){
         var rl = readline.createInterface({
             input: process.stdin,
@@ -47,9 +49,9 @@ public handleUrlInput(urlPostcodeString: string):Promise<Result[]>{
         promiseInputListCommand.then((inputString: string) => {
             var postCodeObject = new PostCode(inputString);
             let promiseCoordinates = postCodeObject.getCoordinates();
-            promiseCoordinates.then((coords) => {
+            promiseCoordinates.then((coords: Coordinates) => {
                 let promiseBusStops = coords.getStopPoints();
-                promiseBusStops.then((busStopsArray) => {
+                promiseBusStops.then((busStopsArray: BusStop[]) => {
                     for(var i = 0; i < busStopsArray.length; ++i){
                         let promiseBuses = busStopsArray[i].getBuses();
                         promiseBuses.then((busesArray) => {
@@ -65,8 +67,6 @@ public handleUrlInput(urlPostcodeString: string):Promise<Result[]>{
     }
 
     public run(urlString: string):Promise<Result[]> {
-        //this.handleUserInput();
-        //this.handlePostCode("e35ar");
         return this.handleUrlInput(urlString);
     }
 }

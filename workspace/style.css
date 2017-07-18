@@ -1,0 +1,38 @@
+form {
+    margin: 10px;
+}
+table, td {
+    border: 1px solid #001a33;
+    text-align: center;
+    padding: 5px;
+    color: #001a33;
+
+}
+table {
+    border-collapse: collapse;
+}
+td {
+    width: 130px;
+}
+.header {
+    font-weight: bold;
+}
+input {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+body {
+    background-color: #cce6ff;
+}
+button {
+    text-align: center;
+    color: white;
+    background-color: #004f99;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    margin: 8px;
+
+}

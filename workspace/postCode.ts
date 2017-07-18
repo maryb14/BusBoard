@@ -1,12 +1,12 @@
 import  { Coordinates } from './coordinates'
-
-const request = require('request')
+import * as request from 'request'
 
 export class PostCode {
+    constructor(public code: string) { }
     getCoordinates(): Promise<Coordinates> {
         let promisePostCode: Promise <string> = new Promise((resolve) => {
             var requestString = "https://api.postcodes.io/postcodes/" + this.code 
-            request(requestString, function (error, response, body) {
+            request(requestString, (error, response, body) => {
               resolve(body); 
             });
         });
@@ -16,15 +16,4 @@ export class PostCode {
             return coords;
         });
     }
-    
-    constructor(public code: string){
-
-    }
-
-    /* doThing(): void {
-        let coordinatePromise = this.getCoordinates();
-        coordinatePromise.then((coords) => {
-            console.log(coords);
-        })
-    }*/
 }

@@ -3,13 +3,24 @@
   <head>
     <meta charset="utf-8">
     <title>Bus Stops</title>
-    <script src="busWebsite.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
   </head>
   <body>
-    <form> Postcode: <input type="text" id = "postcode"><br>
+    <form> Input Postcode: <input type="many rowstext" id = "postcode"><br>
     </form>
     <button onclick="clickFunction()"> See buses near this postcode!
   </button>
-    <div id = "display"> </div>
+  <p id = "error"> </p>
+  <div class = "displayStop">
+    <h3 id = "firstBusStopName"> </h3>
+    <table id = "firstBusStop">
+    </table>
+  </div>
+  <div class = "displayStop">
+    <h3 id = "secondBusStopName"> </h3>
+    <table id = "secondBusStop">
+    </table>
+  </div>
   </body>
 </html>
