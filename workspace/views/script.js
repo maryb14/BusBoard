@@ -1,7 +1,7 @@
 function clickFunction(){
     var postcode = document.getElementById('postcode').value;
     var xhttp = new XMLHttpRequest();
-    var url = "https://polar-wildwood-92922.herokuapp.com/closestStops?postcode=" + postcode;
+    var url = "/closestStops?postcode=" + postcode;
     xhttp.open("GET", url, false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send();
