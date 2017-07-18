@@ -4,12 +4,19 @@ import * as express from 'express'
 import { Result } from './workspace/result'
 import { Bus } from './workspace/bus'
 import * as cors from 'cors'
+import * as path from 'path';
 
 export class Router {
 
     public static main(): number {
         var app = express();
         app.use(cors());
+        app.use(express.static("./workspace/views"));
+        app.get("/home", (req, res) => {
+            let frontPage = path.join(__dirname, "./workspace/views/busWebsite.html");
+            res.sendFile(frontPage);
+        });
+
         app.get("/", function (req, res){
             res.send('Hello World!')
         });
